@@ -28,7 +28,7 @@ const YoutubeForm = () => {
             },
     });
 
-    // console.log("Formik values: ", formik.values);
+    console.log("Visited fields: ", formik.touched);
     
   return (
     <div>
@@ -52,8 +52,12 @@ const YoutubeForm = () => {
               placeholder="Enter your name"
               required
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values.name}
             />
+            {formik.touched.name && formik.errors.name && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.name}</div>
+            )}
           </div>
 
           {/* Email Field */}
@@ -72,8 +76,12 @@ const YoutubeForm = () => {
               placeholder="Enter your email"
               required
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values.email}
             />
+            {formik.touched.email && formik.errors.email && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.email}</div>
+            )}
           </div>
 
           {/* Channel Field */}
@@ -92,8 +100,12 @@ const YoutubeForm = () => {
               placeholder="Enter your channel"
               required
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values.channel}
             />
+            {formik.touched.channel && formik.errors.channel && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.channel}</div>
+            )}
           </div>
 
           {/* Submit Button */}

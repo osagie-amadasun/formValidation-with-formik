@@ -1,32 +1,34 @@
 import React from "react";
-import {useFormik} from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const initialValues = {
-    name: "",
-    email: "",
-    channel: "",
+  name: "",
+  email: "",
+  channel: "",
 };
 const onSubmit = (values) => {
-    console.log(values);
+  console.log(values);
 };
 const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required...Bro think's he's nameless king"),
-    email: Yup.string().email("Invalid email address").required("Email is required"),
-    channel: Yup.string().required("Channel is required"),
+  name: Yup.string().required(
+    "Name is required...Bro think's he's nameless king"
+  ),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  channel: Yup.string().required("Channel is required"),
 });
 
 const YoutubeForm = () => {
-    const formik = useFormik({
-        initialValues,
-        onSubmit,
-        validationSchema,
-    });
-    
   return (
-    <div>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
       <div className="flex items-center justify-center min-h-screen bg-gray-200">
-        <form onSubmit={formik.handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <Form className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
           <h2 className="text-2xl font-bold mb-6 text-gray-800">Basic Form</h2>
 
           {/* Name Field */}
@@ -37,18 +39,15 @@ const YoutubeForm = () => {
             >
               Name
             </label>
-            <input
+            <Field
               type="text"
               id="name"
               name="name"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter your name"
               required
-              {...formik.getFieldProps("name")}
             />
-            {formik.touched.name && formik.errors.name && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.name}</div>
-            )}
+            <ErrorMessage name="name" />
           </div>
 
           {/* Email Field */}
@@ -59,18 +58,15 @@ const YoutubeForm = () => {
             >
               Email
             </label>
-            <input
+            <Field
               type="email"
               id="email"
               name="email"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter your email"
               required
-              {...formik.getFieldProps("email")}
             />
-            {formik.touched.email && formik.errors.email && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.email}</div>
-            )}
+            <ErrorMessage name="email" />
           </div>
 
           {/* Channel Field */}
@@ -81,18 +77,15 @@ const YoutubeForm = () => {
             >
               Channel
             </label>
-            <input
+            <Field
               type="text"
               id="channel"
               name="channel"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter your channel"
               required
-              {...formik.getFieldProps("channel")}
             />
-            {formik.touched.channel && formik.errors.channel && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.channel}</div>
-            )}
+            <ErrorMessage name="channel" />
           </div>
 
           {/* Submit Button */}
@@ -102,9 +95,9 @@ const YoutubeForm = () => {
           >
             Submit
           </button>
-        </form>
+        </Form>
       </div>
-    </div>
+    </Formik>
   );
 };
 

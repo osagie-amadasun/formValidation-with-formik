@@ -1,34 +1,27 @@
 import React from "react";
 import {useFormik} from "formik";
+import * as Yup from "yup";
+
+const initialValues = {
+    name: "",
+    email: "",
+    channel: "",
+};
+const onSubmit = (values) => {
+    console.log(values);
+};
+const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required...Bro think's he's nameless king"),
+    email: Yup.string().email("Invalid email address").required("Email is required"),
+    channel: Yup.string().required("Channel is required"),
+});
 
 const YoutubeForm = () => {
     const formik = useFormik({
-        initialValues: {
-            name: "",
-            email: "",
-            channel: "",
-        },
-        onSubmit: (values) => {
-            console.log(values);
-        },
-        validate: (values) => {
-            let errors = {};
-            if (!values.name) {
-                errors.name = "Name is required";
-            }
-            if (!values.email) {
-                errors.email = "Email is required";
-            } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-                errors.email = "Invalid email address";
-            }
-            if (!values.channel) {
-                errors.channel = "Channel is required";
-            }
-            return errors;
-            },
+        initialValues,
+        onSubmit,
+        validationSchema,
     });
-
-    console.log("Visited fields: ", formik.touched);
     
   return (
     <div>
@@ -51,9 +44,7 @@ const YoutubeForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter your name"
               required
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.name}
+              {...formik.getFieldProps("name")}
             />
             {formik.touched.name && formik.errors.name && (
               <div className="text-red-500 text-sm mt-1">{formik.errors.name}</div>
@@ -75,9 +66,7 @@ const YoutubeForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter your email"
               required
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
+              {...formik.getFieldProps("email")}
             />
             {formik.touched.email && formik.errors.email && (
               <div className="text-red-500 text-sm mt-1">{formik.errors.email}</div>
@@ -99,9 +88,7 @@ const YoutubeForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter your channel"
               required
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.channel}
+              {...formik.getFieldProps("channel")}
             />
             {formik.touched.channel && formik.errors.channel && (
               <div className="text-red-500 text-sm mt-1">{formik.errors.channel}</div>
